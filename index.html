@@ -246,10 +246,47 @@
         .custom-marker {
             background: #667eea;
             color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
+            padding: 2px 6px;
+            border-radius: 12px;
             font-weight: 600;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-size: 10px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .station-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            min-width: 250px;
+        }
+
+        .station-selector h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .station-selector select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 12px;
+            background: white;
+        }
+
+        .station-selector select:focus {
+            outline: none;
+            border-color: #667eea;
         }
     </style>
 </head>
@@ -262,14 +299,21 @@
 
         <div class="main-content">
             <div class="panel">
+                <div class="station-selector">
+                    <h3>📍 Select Station</h3>
+                    <select id="stationDropdown">
+                        <option value="">Choose a station...</option>
+                    </select>
+                </div>
                 <div id="map"></div>
                 <div class="error-message" id="mapError"></div>
             </div>
 
             <div class="panel station-info">
                 <div id="stationPlaceholder" style="text-align: center; padding: 50px; color: #666;">
-                    <h3>Select a station on the map</h3>
-                    <p style="margin-top: 10px;">Click on any marker to view historical weather patterns and ML insights</p>
+                    <h3>Select a station to analyze</h3>
+                    <p style="margin-top: 10px;">Use the dropdown above or zoom in on the map to see station markers</p>
+                    <p style="margin-top: 5px; font-size: 0.9em; opacity: 0.8;">Markers appear when zoomed in closely for better map visibility</p>
                 </div>
                 
                 <div id="stationContent" style="display: none;">
@@ -357,7 +401,9 @@
         let charts = {};
         let rateLimitQueue = [];
         let lastRequestTime = 0;
+        let stationMarkers = [];
         const RATE_LIMIT_DELAY = 3000; // 3 seconds between requests (20/min limit)
+        const MIN_ZOOM_FOR_MARKERS = 6; // Only show markers when zoomed in
 
         // Initialize map
         function initMap() {
@@ -367,6 +413,9 @@
                 attribution: '© OpenStreetMap contributors',
                 maxZoom: 19
             }).addTo(map);
+
+            // Add zoom event listener for marker visibility
+            map.on('zoomend', updateMarkerVisibility);
 
             loadStations();
         }
@@ -414,19 +463,27 @@
                 stations = data;
                 console.log('Stations loaded:', stations.length);
                 
-                // Add markers to map
+                // Clear existing markers
+                stationMarkers.forEach(marker => map.removeLayer(marker));
+                stationMarkers = [];
+                
+                // Populate dropdown
+                populateStationDropdown();
+                
+                // Add markers to map (but don't show them yet)
                 let markerCount = 0;
                 stations.forEach(station => {
                     if (station.latitude && station.longitude) {
                         const marker = L.marker([station.latitude, station.longitude], {
                             icon: L.divIcon({
                                 className: 'custom-marker',
-                                html: `<div class="custom-marker">${station.station_id}</div>`,
-                                iconSize: [80, 30],
-                                iconAnchor: [40, 15]
+                                html: `<div class="custom-marker">${station.station_id.substring(0, 3)}</div>`,
+                                iconSize: [30, 15],
+                                iconAnchor: [15, 7]
                             })
-                        }).addTo(map);
+                        });
                         
+                        marker.stationData = station;
                         marker.on('click', () => selectStation(station));
                         
                         marker.bindPopup(`
@@ -434,11 +491,16 @@
                             ${station.station_network || 'Unknown Network'}<br>
                             <small>Click to analyze</small>
                         `);
+                        
+                        stationMarkers.push(marker);
                         markerCount++;
                     }
                 });
                 
-                console.log('Markers added to map:', markerCount);
+                console.log('Markers created:', markerCount);
+                
+                // Update marker visibility based on current zoom
+                updateMarkerVisibility();
                 
                 if (markerCount === 0) {
                     document.getElementById('mapError').textContent = 'No valid station data found.';
@@ -449,6 +511,67 @@
                 document.getElementById('mapError').textContent = 'Failed to load stations. Please refresh.';
                 document.getElementById('mapError').classList.add('active');
             }
+        }
+
+        // Populate station dropdown
+        function populateStationDropdown() {
+            const dropdown = document.getElementById('stationDropdown');
+            dropdown.innerHTML = '<option value="">Choose a station...</option>';
+            
+            // Group stations by state/network
+            const groupedStations = {};
+            stations.forEach(station => {
+                const group = station.station_network || 'Unknown';
+                if (!groupedStations[group]) {
+                    groupedStations[group] = [];
+                }
+                groupedStations[group].push(station);
+            });
+            
+            // Add options grouped by state/network
+            Object.keys(groupedStations).sort().forEach(group => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = group;
+                
+                groupedStations[group].forEach(station => {
+                    const option = document.createElement('option');
+                    option.value = station.station_id;
+                    option.textContent = `${station.station_id} - ${station.station_name || 'Unknown Name'}`;
+                    optgroup.appendChild(option);
+                });
+                
+                dropdown.appendChild(optgroup);
+            });
+            
+            // Add dropdown change event listener
+            dropdown.addEventListener('change', function() {
+                if (this.value) {
+                    const selectedStation = stations.find(s => s.station_id === this.value);
+                    if (selectedStation) {
+                        selectStation(selectedStation);
+                        // Pan to the station
+                        map.setView([selectedStation.latitude, selectedStation.longitude], Math.max(map.getZoom(), 8));
+                    }
+                }
+            });
+        }
+
+        // Update marker visibility based on zoom level
+        function updateMarkerVisibility() {
+            const currentZoom = map.getZoom();
+            const shouldShowMarkers = currentZoom >= MIN_ZOOM_FOR_MARKERS;
+            
+            stationMarkers.forEach(marker => {
+                if (shouldShowMarkers) {
+                    if (!map.hasLayer(marker)) {
+                        marker.addTo(map);
+                    }
+                } else {
+                    if (map.hasLayer(marker)) {
+                        map.removeLayer(marker);
+                    }
+                }
+            });
         }
 
         // Select station
