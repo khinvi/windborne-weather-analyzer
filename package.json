@@ -1,0 +1,13 @@
+{
+    "name": "windborne-weather-analyzer",
+    "version": "1.0.0",
+    "description": "Interactive Weather Pattern ML Analyzer for ASOS stations",
+    "scripts": {
+      "start": "python3 -m http.server 8000",
+      "deploy": "vercel --prod",
+      "submit": "python3 scripts/submit_application.py"
+    },
+    "keywords": ["weather", "ml", "visualization", "asos"],
+    "author": "Arnav Khinvasara",
+    "license": "MIT"
+  }
