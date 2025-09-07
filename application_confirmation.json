@@ -1,0 +1,17 @@
+{
+  "submitted": true,
+  "timestamp": "2025-09-07T16:40:05.411265",
+  "response": "{\"success\":true,\"message\":\"Your application has been submitted successfully\",\"career_application\":{\"id\":\"f489dcff-9b79-40a3-9ba6-1b484944f3dc\",\"name\":\"Arnav Khinvasara\",\"email\":\"arnav707@gmail.com\",\"role\":\"Software Engineering Intern Product\",\"submission_url\":\"https://windborne-weather-analyzer.vercel.app/\",\"resume_url\":\"https://github.com/khinvi/windborne-weather-analyzer/blob/main/docs/Arnav%20Khinvasara%20Resum%C3%A9%20-%20AUGUST%202025.pdf\",\"notes\":\"M.S. Computer Science student at UCSD specializing in AI/ML and Computer Systems. Currently building clipshot.ai, a domain-specific sports LLM for professional sports teams. Strong background in data systems, ML pipelines, and cloud infrastructure (AWS Certified). Previous internships at Glooko and Malwarebytes working on scalable systems and data ingestion.\\n\\nSome things that I wanted to showcase in the Weather Pattern ML Analyzer:\\n- Interactive map visualization with all ASOS stations\\n- Real-time data fetching (proper rate limiting and error handling)\\n- ML-powered insights including trend analysis, anomaly detection, and correlation analysis\\n- Clean, modern UI (responsive design)\\n- Robust data corruption handling as mentioned in the requirements\\n\\nThe application uses TensorFlow.js for client-side ML processing, ensuring fast performance without backend dependencies. I implemented statistical methods for anomaly detection and Pearson correlation for parameter relationships, demonstrating both practical engineering and ML expertise.\",\"created_at\":\"2025-09-07T23:40:05.404Z\",\"updated_at\":\"2025-09-07T23:40:05.404Z\",\"archived\":false,\"reviewer_notes\":null,\"portfolio_url\":\"https://khinvi.github.io/\"}}",
+  "status_code": 200,
+  "application": {
+    "career_application": {
+      "name": "Arnav Khinvasara",
+      "email": "arnav707@gmail.com",
+      "role": "Software Engineering Intern Product",
+      "submission_url": "https://windborne-weather-analyzer.vercel.app/",
+      "portfolio_url": "https://khinvi.github.io/",
+      "resume_url": "https://github.com/khinvi/windborne-weather-analyzer/blob/main/docs/Arnav%20Khinvasara%20Resum%C3%A9%20-%20AUGUST%202025.pdf",
+      "notes": "M.S. Computer Science student at UCSD specializing in AI/ML and Computer Systems. Currently building clipshot.ai, a domain-specific sports LLM for professional sports teams. Strong background in data systems, ML pipelines, and cloud infrastructure (AWS Certified). Previous internships at Glooko and Malwarebytes working on scalable systems and data ingestion.\n\nSome things that I wanted to showcase in the Weather Pattern ML Analyzer:\n- Interactive map visualization with all ASOS stations\n- Real-time data fetching (proper rate limiting and error handling)\n- ML-powered insights including trend analysis, anomaly detection, and correlation analysis\n- Clean, modern UI (responsive design)\n- Robust data corruption handling as mentioned in the requirements\n\nThe application uses TensorFlow.js for client-side ML processing, ensuring fast performance without backend dependencies. I implemented statistical methods for anomaly detection and Pearson correlation for parameter relationships, demonstrating both practical engineering and ML expertise."
+    }
+  }
+}

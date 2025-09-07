@@ -9,17 +9,13 @@ import requests
 import time
 from datetime import datetime
 
-# Configuration - UPDATE THESE WITH YOUR ACTUAL URLs
 CONFIG = {
     "name": "Arnav Khinvasara",
     "email": "arnav707@gmail.com",
     "role": "Software Engineering Intern Product",
-    
-    # UPDATE THESE URLs AFTER DEPLOYMENT:
-    "submission_url": "YOUR_VERCEL_APP_URL_HERE",  # e.g., "https://weather-ml-analyzer-arnav.vercel.app"
+    "submission_url": "https://windborne-weather-analyzer.vercel.app/",
     "portfolio_url": "https://khinvi.github.io/",
-    "resume_url": "YOUR_RESUME_URL_HERE",  # Upload to Google Drive or GitHub
-    
+    "resume_url": "https://github.com/khinvi/windborne-weather-analyzer/blob/main/docs/Arnav%20Khinvasara%20Resum%C3%A9%20-%20AUGUST%202025.pdf", 
     "notes": """M.S. Computer Science student at UCSD specializing in AI/ML and Computer Systems. Currently building clipshot.ai, a domain-specific sports LLM for professional sports teams. Strong background in data systems, ML pipelines, and cloud infrastructure (AWS Certified). Previous internships at Glooko and Malwarebytes working on scalable systems and data ingestion.
 
 Some things that I wanted to showcase in the Weather Pattern ML Analyzer:
@@ -29,33 +25,8 @@ Some things that I wanted to showcase in the Weather Pattern ML Analyzer:
 - Clean, modern UI (responsive design)
 - Robust data corruption handling as mentioned in the requirements
 
-The application uses TensorFlow.js for client-side ML processing, ensuring fast performance without backend dependencies. I implemented statistical methods for anomaly detection and Pearson correlation for parameter relationships, demonstrating both practical engineering and ML expertise."""
+The application uses TensorFlow.js for client-side ML processing, ensuring fast performance without backend dependencies. I implemented statistical methods for anomaly detection and Pearson correlation for parameter relationships."""
 }
-
-def upload_resume_to_github():
-    """
-    Instructions for uploading resume to GitHub
-    """
-    print("📄 RESUME UPLOAD INSTRUCTIONS")
-    print("=" * 50)
-    print("Option 1: GitHub (Recommended)")
-    print("-" * 30)
-    print("1. Go to https://github.com/khinvi")
-    print("2. Create a new repository called 'resume'")
-    print("3. Upload your resume PDF")
-    print("4. Get the raw URL: https://raw.githubusercontent.com/khinvi/resume/main/Arnav_Khinvasara_Resume.pdf")
-    print()
-    print("Option 2: Google Drive")
-    print("-" * 30)
-    print("1. Upload resume to Google Drive")
-    print("2. Right-click > Get link")
-    print("3. Change to 'Anyone with the link'")
-    print("4. Convert sharing link to direct link:")
-    print("   From: https://drive.google.com/file/d/FILE_ID/view")
-    print("   To: https://drive.google.com/uc?export=download&id=FILE_ID")
-    print()
-    print("=" * 50)
-    print()
 
 def validate_urls():
     """
@@ -170,10 +141,6 @@ def main():
     print("=" * 50)
     print()
     
-    # Step 1: Show resume upload instructions
-    upload_resume_to_github()
-    
-    # Step 2: Check current configuration
     print("📋 CURRENT CONFIGURATION")
     print("-" * 30)
     print(f"Name: {CONFIG['name']}")
