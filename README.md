@@ -27,7 +27,7 @@ An interactive Weather Pattern ML Analyzer for ASOS stations, built as part of t
 
 ## 🏃‍♂️ Running Locally
 
-\`\`\`bash
+```bash
 # Clone the repository
 git clone https://github.com/khinvi/windborne-weather-analyzer.git
 
@@ -39,7 +39,7 @@ python3 -m http.server 8000
 
 # Open in browser
 open http://localhost:8000
-\`\`\`
+```
 
 ## 📊 API Usage
 
@@ -47,11 +47,3 @@ The application uses the WindBorne Systems ASOS API:
 - Endpoint: `https://sfc.windbornesystems.com`
 - Rate limit: 20 requests per minute
 - Implements automatic rate limiting and error handling
-
-## 👨‍💻 Author
-
-**Arnav Khinvasara**
-- M.S. Computer Science, UC San Diego
-- [LinkedIn](https://www.linkedin.com/in/arnavkhinvasara)
-- [Portfolio](https://khinvi.github.io/)
-- [Email](mailto:arnav707@gmail.com)
