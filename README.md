@@ -1,6 +1,6 @@
 # 🌦️ WindBorne Weather Analyzer
 
-An interactive Weather Pattern ML Analyzer for ASOS stations, built as part of the WindBorne Systems Software Engineering Intern application.
+An interactive Weather Pattern ML Analyzer for ASOS stations leveraging the WindBorne Systems API.
 
 ## 🎯 Features
 
